@@ -22,13 +22,24 @@ class Solution {
         if(root == null) {
             return 0;
         }
-        int maxDepthVal = 0;
-        for(Node child : root.children) {
-            int currChildDepth = maxDepth(child);
-            if(currChildDepth > maxDepthVal) {
-                maxDepthVal = currChildDepth;
+
+        Queue<Node> queue = new ArrayDeque<>();
+        queue.add(root);
+        int depth = 0;
+
+        while(!queue.isEmpty()) {
+            int levelSize = queue.size();
+
+            for(int i = 0; i < levelSize; i++) {
+                Node current = queue.poll();
+                if(current.children != null) {
+                    queue.addAll(current.children);
+                }
             }
+
+            depth += 1;
         }
-        return maxDepthVal + 1;
+
+        return depth;
     }
 }
